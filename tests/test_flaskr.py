@@ -40,6 +40,23 @@ class FlaskrTestCase(unittest.TestCase):
         assert b'&lt;Hello&gt;' in rv.data
         assert b'<strong>HTML</strong> allowed here' in rv.data
 
+         
+    def test_todos_should_have_a_created_at_field(self):
+        self.login('admin', 'default')
+        rv = self.app.post('/add', data=dict(
+            title='Hello',
+            text='Paka'
+        ), follow_redirects=True)
+        assert b'No entries here so far' not in rv.data
+        assert b'Hello' in rv.data
+        assert b'Paka' in rv.data
+
+        rsp = self.app.get('/api/search')
+        all_todos = rsp.data
+        assert b'Hello' in all_todos
+        assert b'Paka' in all_todos
+        assert b'created_at' in all_todos
+
     def login(self, username, password):
         return self.app.post('/login', data=dict(
             username=username,

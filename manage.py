@@ -16,5 +16,5 @@ import os
 
 if __name__ == '__main__':
     os.environ['FLASK_APP'] = 'flaskr'
-    os.environ['FLASK_DEBUG'] = 'true'
+    # os.environ['FLASK_DEBUG'] = 'true'
     main()
